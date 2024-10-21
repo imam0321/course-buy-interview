@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: 'https://littleaccount.com/api',
+  baseURL: 'https://itder.com',
 });
 
 const useAxiosSecure = () => {
