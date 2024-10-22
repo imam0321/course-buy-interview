@@ -60,8 +60,7 @@ const NavbarTop = () => {
     }
   }, [isSmallScreen, setOpen])
 
-  const cart = JSON.parse(localStorage.getItem("cart"))
-  // console.log(cart[0].quantity)
+  
 
 
   return (
@@ -79,8 +78,6 @@ const NavbarTop = () => {
           className="flex flex-col items-center justify-center text-text_sm font-semibold relative group"
         >
           <div className="flex items-center gap-8">
-            {/* cart count */}
-            <Link to='/cart' className="text-black">Cart {cart[0].quantity}</Link>
           <h1 className="text-blue-500 text-xl font-medium">{userData?.userData.name}</h1>
          {userData?.userData.image ? 
          <img

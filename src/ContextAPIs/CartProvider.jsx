@@ -5,7 +5,8 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart")) || []);
-  const [quantity, setQuantity] = useState(cart[0]?.quantity || 1);
+  const [quantity, setQuantity] = useState(cart.length > 0 ? cart[0]?.quantity || 0 : 0);
+
 
   // Calculate total cost
   const totalCost = cart.length > 0 ? cart[0].course.discount_price * quantity : 0;
@@ -14,6 +15,8 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  
+
   const handleIncreaseQuantity = () => {
     const updatedQuantity = quantity + 1;
     setQuantity(updatedQuantity);
@@ -21,7 +24,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const handleDecreaseQuantity = () => {
-    if (quantity > 1) {
+    if (quantity > 0) { 
       const updatedQuantity = quantity - 1;
       setQuantity(updatedQuantity);
       updateCart(updatedQuantity);
@@ -33,7 +36,7 @@ export const CartProvider = ({ children }) => {
       item.id === cart[0].id ? { ...item, quantity: updatedQuantity } : item
     );
     setCart(updatedCart);
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
@@ -51,4 +54,3 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
-

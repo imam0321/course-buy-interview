@@ -21,6 +21,7 @@ const Checkout = () => {
     nid: "",
     mobile: "",
     guardianName: "",
+    guardianPhone: "",
     dob: "",
     bloodGroup: "",
   });
@@ -49,6 +50,7 @@ const Checkout = () => {
       course_id: cart[0]?.id,
       admission_date: new Date(),
       photo,
+      courseName: cart[0].course.course_name,
       name: formData.fullName,
       father_name: formData.parentName,
       school_collage_name: formData.school,
@@ -70,6 +72,7 @@ const Checkout = () => {
       sub_total_course_fee: totalCost - discount_price,
     };
     navigate("/order-details", { state: { formData, cartInfo } });
+    localStorage.removeItem("cart", JSON.stringify(cart));
   };
 
   return (
@@ -122,7 +125,7 @@ const Checkout = () => {
                 htmlFor="parentName"
                 className="block font-semibold text-base mb-2"
               >
-                Father/Mother Name:
+                Father Name:
               </label>
               <input
                 type="text"
@@ -134,19 +137,32 @@ const Checkout = () => {
             </div>
             <div>
               <label
-                htmlFor="parentNumber"
+                htmlFor="bloodGroup"
                 className="block font-semibold text-base mb-2"
               >
-                Number:
+                Blood Group:
               </label>
-              <input
-                type="text"
-                id="parentNumber"
-                value={formData.parentNumber}
+
+              <select
+                id="bloodGroup"
+                value={formData.bloodGroup}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
-              />
+              >
+                <option value="" disabled selected>
+                    Select Blood Group
+                </option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+              </select>
             </div>
+             
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -306,6 +322,22 @@ const Checkout = () => {
                 htmlFor="dob"
                 className="block font-semibold text-base mb-2"
               >
+                Guardian’s Phone:
+              </label>
+              <input
+                type="text"
+                id="guardianPhone"
+                value={formData.guardianPhone}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 rounded-md p-2"
+              />
+            </div>
+          </div>
+          <div className="md:w-1/2">
+              <label
+                htmlFor="dob"
+                className="block font-semibold text-base mb-2"
+              >
                 Date of Birth:
               </label>
               <input
@@ -316,37 +348,7 @@ const Checkout = () => {
                 className="w-full border border-gray-300 rounded-md p-2"
               />
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label
-                htmlFor="bloodGroup"
-                className="block font-semibold text-base mb-2"
-              >
-                Blood Group:
-              </label>
-              <select
-                id="bloodGroup"
-                value={formData.bloodGroup}
-                onChange={handleInputChange}
-                className="w-full border border-gray-300 rounded-md p-2"
-              >
-                <option disabled selected>
-                  Select Blood Group
-                </option>
-
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-              </select>
-            </div>
-          </div>
+         
         </div>
 
         <div className="m-mt_16px">

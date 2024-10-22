@@ -33,7 +33,7 @@ const CartCount = () => {
                   <div className="w-[20%] text-center flex items-center justify-center ">
                     <RiDeleteBin5Line className="text-xl hover:text-footer_color cursor-pointer" />
                   </div>
-                  <div className="flex flex-col text-center justify-center items-center py-2  w-[80%]">
+                  <div className="flex text-center justify-center items-center py-2  w-[80%]">
                     <div className="mask">
                       <img
                         className="h-[40px] w-[70px]"
@@ -43,9 +43,6 @@ const CartCount = () => {
                     </div>
                     <p className="text-[14.4px] px-[7px] text-center flex ">
                       {course_name}{" "}
-                      <span className="hidden lg:flex ">
-                        - {trainer_data.name}
-                      </span>
                     </p>
                   </div>
                 </div>

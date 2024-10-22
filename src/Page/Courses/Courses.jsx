@@ -1,6 +1,7 @@
 import useCourses from "../../Hooks/useCourses";
 import Loader from "../../Utils/Loader/Loader";
 import Course from "./Course";
+import { toast } from "react-toastify";
 
 const Courses = () => {
   const [courses, loading] = useCourses();
@@ -14,7 +15,8 @@ const Courses = () => {
     const courseInCart = existingCart.find((item) => item.id === course.id);
 
     if (existingCart.length >= 1 && !courseInCart) {
-      console.log("Cannot add more than one course to the cart.");
+      // console.log("Cannot add more than one course to the cart.");
+      toast.error("Cannot add more than one course to the cart.");
       return;
     }
 
@@ -22,10 +24,14 @@ const Courses = () => {
       const updatedCart = [
         ...existingCart,
         { course, id: course.id, quantity: 1 },
+        
       ];
-
+      toast.success("Course added to cart!");
+      window.location.reload();
+      
       localStorage.setItem("cart", JSON.stringify(updatedCart));
       console.log("Course added to cart:", course);
+      
     } else {
       const updatedCart = existingCart.map((item) => {
         if (item.id === course.id) {
@@ -37,6 +43,7 @@ const Courses = () => {
       localStorage.setItem("cart", JSON.stringify(updatedCart));
       console.log("Increased quantity for course in cart:", course);
       window.location.reload();
+      toast.success("Increased quantity for course in cart!");
     }
   };
 

@@ -1,7 +1,10 @@
 // import TrackOrder from "./TrackOrder";
 import { useLocation } from "react-router-dom";
+// import { CartContext } from "../../ContextAPIs/CartProvider";
+// import { useContext } from "react";
 
 const OrderDetails = () => {
+//   const { cart, totalCost } = useContext(CartContext);
   const { state } = useLocation();
   const { formData, cartInfo } = state || {};
   console.log(cartInfo?.name);
@@ -20,7 +23,7 @@ const OrderDetails = () => {
           <div className="w-full border flex flex-col md:flex-row md:items-start   md:mt-4 mt-3 bg-[#D2C5A2] rounded-md p-4  ">
             <div className="md:text-base text-sm flex-1  font-semibold   md:border-r-2 md:border-black md:pr-10">
               <p className="font-bold md:mb-4 w-full">
-                Demo information,Checkout page information will be here{" "}
+                Checkout page information{" "}
               </p>
               <div className="space-y-1 w-full">
                 <div className="flex items-center justify-between">
@@ -28,56 +31,58 @@ const OrderDetails = () => {
                   <p className="text-start">{cartInfo?.name}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>Country :</p>
-                  <p>country</p>
+                  <p>Email :</p>
+                  <p>{formData?.email}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>District Thana :</p>
-                  <p className="text-start">Thana</p>
+                  <p>Phone :</p>
+                  <p className="text-start">{formData?.mobile}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>Address :</p>
-                  <p>Address</p>
+                  <p>School :</p>
+                  <p className="text-start">{formData?.school}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>Order Notes :</p>
-                  <p className="text-start">Order Notes</p>
+                  <p>gender :</p>
+                  <p className="text-start">{formData?.gender}</p>
                 </div>
-                <div className="flex items-center justify-between">
-                  <p>Mobile :</p>
-                  <p>Mobile</p>
+                <div className="flex flex-col">
+                  <p>Present Address :</p>
+                  <p className="text-end">{formData?.presentAddress}</p>
+                </div>
+                <div className="flex flex-col">
+                  <p>Permanent Address :</p>
+                  <p className="text-end">{formData?.permanentAddress}</p>
                 </div>
               </div>
             </div>
 
             <div className="md:text-base text-sm  flex-1 font-semibold  md:ml-10 mt-m_medium">
-              <p className="font-bold  md:mb-4 w-full">
-                Demo information,Checkout page information will be here{" "}
-              </p>
-              <div className="space-y-1 w-full">
+              
+              <div className="space-y-1 mt-7 w-full">
                 <div className="flex items-center justify-between">
-                  <p>Full Name :</p>
-                  <p className="text-start">name</p>
+                  <p>Father Name :</p>
+                  <p className="text-start">{formData?.parentName}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>Country :</p>
-                  <p>country</p>
+                  <p>Nid :</p>
+                  <p className="text-start">{formData?.nid}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>District Thana :</p>
-                  <p className="text-start">Thana</p>
+                  <p>Date of Birth :</p>
+                  <p>{formData?.dob}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>Address :</p>
-                  <p>Address</p>
+                  <p>BloodGroup :</p>
+                  <p className="text-start">{cartInfo?.blood_group}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>Order Notes :</p>
-                  <p className="text-start">Order Notes</p>
+                  <p>Guardian Name :</p>
+                  <p>{formData?.guardianName}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p>Mobile :</p>
-                  <p>Mobile</p>
+                  <p>Guardian Number :</p>
+                  <p>{formData?.guardianPhone}</p>
                 </div>
               </div>
             </div>
@@ -113,24 +118,24 @@ const OrderDetails = () => {
                   <td className="border text-center w-10 h-12 px-2">
                     <img
                       className=" w-full h-full object-cover mx-auto"
-                      src=""
+                      src={cartInfo?.photo}
                       alt=""
                     />
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                    Course name
+                  {cartInfo?.courseName}
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                    Student name
+                  {cartInfo?.name}
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                    quantity
+                  {cartInfo?.course_qty}
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                    price
+                  {cartInfo?.course_fee}
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                    total price
+                    {cartInfo?.total_course_fee}
                   </td>
                 </tr>
               </tbody>
