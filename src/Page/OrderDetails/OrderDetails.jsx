@@ -1,10 +1,6 @@
-// import TrackOrder from "./TrackOrder";
 import { useLocation } from "react-router-dom";
-// import { CartContext } from "../../ContextAPIs/CartProvider";
-// import { useContext } from "react";
 
 const OrderDetails = () => {
-//   const { cart, totalCost } = useContext(CartContext);
   const { state } = useLocation();
   const { formData, cartInfo } = state || {};
   console.log(cartInfo?.name);
@@ -58,11 +54,14 @@ const OrderDetails = () => {
             </div>
 
             <div className="md:text-base text-sm  flex-1 font-semibold  md:ml-10 mt-m_medium">
-              
               <div className="space-y-1 mt-7 w-full">
                 <div className="flex items-center justify-between">
                   <p>Father Name :</p>
                   <p className="text-start">{formData?.parentName}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p>Father Phone :</p>
+                  <p className="text-start">{formData?.parentNumber}</p>
                 </div>
                 <div className="flex items-center justify-between">
                   <p>Nid :</p>
@@ -123,16 +122,16 @@ const OrderDetails = () => {
                     />
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                  {cartInfo?.courseName}
+                    {cartInfo?.courseName}
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                  {cartInfo?.name}
+                    {cartInfo?.name}
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                  {cartInfo?.course_qty}
+                    {cartInfo?.course_qty}
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
-                  {cartInfo?.course_fee}
+                    {cartInfo?.course_fee}
                   </td>
                   <td className="lg:py-6 md:py-4 py-2 text-center border">
                     {cartInfo?.total_course_fee}

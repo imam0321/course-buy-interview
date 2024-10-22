@@ -2,9 +2,11 @@ import { useNavigate } from "react-router-dom";
 import CartCount from "../Cart/CartCount";
 import { CartContext } from "../../ContextAPIs/CartProvider";
 import { useContext, useState, useEffect } from "react";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const Checkout = () => {
   const { cart, totalCost } = useContext(CartContext);
+  const axiosInstance = useAxiosSecure();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -24,6 +26,7 @@ const Checkout = () => {
     guardianPhone: "",
     dob: "",
     bloodGroup: "",
+    photo: null, 
   });
 
   const { photo, discount_price } = cart[0]?.course || {};
@@ -37,22 +40,27 @@ const Checkout = () => {
   }, []);
 
   const handleInputChange = (e) => {
-    const { id, value } = e.target;
+    const { id, value, files } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [id]: value,
+      [id]: files ? files[0] : value,
     }));
   };
 
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formDataToSubmit = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      formDataToSubmit.append(key, value);
+    });
     const cartInfo = {
       course_id: cart[0]?.id,
       admission_date: new Date(),
-      photo,
-      courseName: cart[0].course.course_name,
       name: formData.fullName,
       father_name: formData.parentName,
+      father_phone_no: formData.parentNumber,
       school_collage_name: formData.school,
       job_title: formData.jobInfo,
       email: formData.email,
@@ -62,17 +70,36 @@ const Checkout = () => {
       nid_no: formData.nid,
       phone_no: formData.mobile,
       local_guardian_name: formData.guardianName,
-      local_guardian_phone_no: formData.parentNumber,
+      local_guardian_phone_no: formData.guardianPhone,
       date_of_birth: formData.dob,
       blood_group: formData.bloodGroup,
       course_fee: discount_price,
-      course_qty: cart.length,
+      course_qty: cart[0].quantity,
       total_course_fee: totalCost,
       discount_course_fee: discount_price * cart.length,
       sub_total_course_fee: totalCost - discount_price,
+      photo,
+      courseName: cart[0].course.course_name,
+      user_id: 1,
+      form_no: formData.formNo,
+      updated_at: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+      id: 48,
     };
-    navigate("/order-details", { state: { formData, cartInfo } });
-    localStorage.removeItem("cart", JSON.stringify(cart));
+    Object.entries(cartInfo).forEach(([key, value]) => {
+        formDataToSubmit.append(key, value);
+      });
+      try {
+        await axiosInstance.post("/api/course-purchase", formDataToSubmit, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        navigate("/order-details", { state: { formData, cartInfo } });
+        localStorage.removeItem("cart");
+      } catch (error) {
+        console.error("Error submitting form", error);
+      }
   };
 
   return (
@@ -97,6 +124,7 @@ const Checkout = () => {
               <input
                 type="text"
                 id="fullName"
+                required
                 value={formData.fullName}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
@@ -112,6 +140,7 @@ const Checkout = () => {
               <input
                 type="text"
                 id="formNo"
+                required
                 value={formData.formNo}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
@@ -130,6 +159,7 @@ const Checkout = () => {
               <input
                 type="text"
                 id="parentName"
+                required
                 value={formData.father_name}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
@@ -137,32 +167,20 @@ const Checkout = () => {
             </div>
             <div>
               <label
-                htmlFor="bloodGroup"
+                htmlFor="parentNumber"
                 className="block font-semibold text-base mb-2"
               >
-                Blood Group:
+                Father Phone:
               </label>
-
-              <select
-                id="bloodGroup"
-                value={formData.bloodGroup}
+              <input
+                type="text"
+                id="parentNumber"
+                required
+                value={formData.parentNumber}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
-              >
-                <option value="" disabled selected>
-                    Select Blood Group
-                </option>
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-              </select>
+              />
             </div>
-             
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -176,6 +194,7 @@ const Checkout = () => {
               <input
                 type="text"
                 id="school"
+                required
                 value={formData.school}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
@@ -191,6 +210,7 @@ const Checkout = () => {
               <input
                 type="text"
                 id="jobInfo"
+                required
                 value={formData.jobInfo}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
@@ -209,6 +229,7 @@ const Checkout = () => {
               <input
                 type="email"
                 id="email"
+                required
                 value={formData.email}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
@@ -223,6 +244,7 @@ const Checkout = () => {
               </label>
               <select
                 id="gender"
+                required
                 value={formData.gender}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
@@ -247,6 +269,7 @@ const Checkout = () => {
               </label>
               <textarea
                 id="presentAddress"
+                required
                 value={formData.presentAddress}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
@@ -261,6 +284,7 @@ const Checkout = () => {
               </label>
               <textarea
                 id="permanentAddress"
+                required
                 value={formData.permanentAddress}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
@@ -279,6 +303,7 @@ const Checkout = () => {
               <input
                 type="text"
                 id="nid"
+                required
                 value={formData.nid}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
@@ -294,6 +319,7 @@ const Checkout = () => {
               <input
                 type="text"
                 id="mobile"
+                required
                 value={formData.mobile}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
@@ -312,6 +338,7 @@ const Checkout = () => {
               <input
                 type="text"
                 id="guardianName"
+                required
                 value={formData.guardianName}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
@@ -327,13 +354,16 @@ const Checkout = () => {
               <input
                 type="text"
                 id="guardianPhone"
+                required
                 value={formData.guardianPhone}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
               />
             </div>
           </div>
-          <div className="md:w-1/2">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
               <label
                 htmlFor="dob"
                 className="block font-semibold text-base mb-2"
@@ -343,12 +373,56 @@ const Checkout = () => {
               <input
                 type="date"
                 id="dob"
+                required
                 value={formData.dob}
                 onChange={handleInputChange}
                 className="w-full border border-gray-300 rounded-md p-2"
               />
             </div>
-         
+            <div>
+              <label
+                htmlFor="bloodGroup"
+                className="block font-semibold text-base mb-2"
+              >
+                Blood Group:
+              </label>
+
+              <select
+                id="bloodGroup"
+                required
+                value={formData.bloodGroup}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 rounded-md p-2"
+              >
+                <option value="" disabled selected>
+                  Select Blood Group
+                </option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+              </select>
+            </div>
+          </div>
+          <div>
+              <label
+                htmlFor="photo"
+                className="block font-semibold text-base mb-2"
+              >
+                Student Photo:
+              </label>
+              <input
+                type="file"
+                id="photo"
+                required
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 rounded-md p-2"
+              />
+            </div>
         </div>
 
         <div className="m-mt_16px">

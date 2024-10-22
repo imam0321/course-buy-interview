@@ -77,7 +77,8 @@ const MenuBar = () => {
                 }`}
                 onClick={() => handleClick("/cart")}
               >
-                <Link
+                {
+                  cart.length > 0 ? <Link
                   to="/cart"
                   className="flex items-center gap-gap_6px py-pt_primary"
                 >
@@ -86,10 +87,12 @@ const MenuBar = () => {
                   </span>
                   <span className="text-text_md font_sans font-medium ">
                     Cart (
-                    {cart.length > 0 ? cart[0].quantity : 0}
+                    {cart[0].quantity}
                     )
                   </span>
-                </Link>
+                </Link> : ''
+                }
+                
               </li>
               {/* <li className={` px-pt_8px my-mt_4px hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200  ${selected === '/checkout' ? 'bg-bg_selected rounded-rounded_primary text-white hover:text-white font-medium hover:bg-bg_selected' : 'text-[#585c66] font-medium hover:text-[#585c66] hover:bg-slate-100 '}`}
                 onClick={() => handleClick('/checkout')}>

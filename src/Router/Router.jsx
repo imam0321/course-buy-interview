@@ -10,6 +10,7 @@ import OrderDetails from "../Page/OrderDetails/OrderDetails";
 import Checkout from "../Page/Checkout/Checkout";
 import Search from "../Page/Search/Search";
 import Login from "../Pages/Login/Login";
+import ErrorPage from "../Utils/ErrorPage/ErrorPage";
 
 
 const Router = createBrowserRouter([
@@ -41,6 +42,10 @@ const Router = createBrowserRouter([
             {
                 path: '/login',
                 element: <Login/>
+            },
+            {
+                path: "*",
+                element: <ErrorPage/>
             }
         ]
     },
@@ -62,8 +67,7 @@ const Router = createBrowserRouter([
             }
           
         ]
-    }
-    
+    },
 ])
 
 export default Router;
