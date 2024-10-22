@@ -5,6 +5,41 @@ import Course from "./Course";
 const Courses = () => {
   const [courses, loading] = useCourses();
 
+  const handleAddToCart = (id) => {
+    const course = courses.find((course) => course.id === id);
+
+    if (!course) return;
+
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const courseInCart = existingCart.find((item) => item.id === course.id);
+
+    if (existingCart.length >= 1 && !courseInCart) {
+      console.log("Cannot add more than one course to the cart.");
+      return;
+    }
+
+    if (!courseInCart) {
+      const updatedCart = [
+        ...existingCart,
+        { course, id: course.id, quantity: 1 },
+      ];
+
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      console.log("Course added to cart:", course);
+    } else {
+      const updatedCart = existingCart.map((item) => {
+        if (item.id === course.id) {
+          return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
+      });
+
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      console.log("Increased quantity for course in cart:", course);
+      window.location.reload();
+    }
+  };
+
   return (
     <div className="">
       {loading ? (
@@ -12,7 +47,11 @@ const Courses = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {courses.map((course) => (
-            <Course key={course.id} course={course}></Course>
+            <Course
+              key={course.id}
+              course={course}
+              handleAddToCart={handleAddToCart}
+            ></Course>
           ))}
         </div>
       )}

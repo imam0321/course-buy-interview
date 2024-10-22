@@ -1,5 +1,5 @@
-const Course = ({ course }) => {
-  const { course_name, trainer_data, photo, regular_price, discount_price } =
+const Course = ({ course, handleAddToCart }) => {
+  const { id, course_name, trainer_data, photo, regular_price, discount_price } =
     course;
   const discountPercentage = Math.round(
     ((regular_price - discount_price) / regular_price) * 100
@@ -7,7 +7,7 @@ const Course = ({ course }) => {
 
   return (
     <div className="m-mt_16px">
-      <div className=" bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className=" bg-white shadow-lg rounded-lg overflow-hidden h-[100%]">
         <div className="relative">
           <img
             src={photo}
@@ -37,7 +37,7 @@ const Course = ({ course }) => {
             </span>
           </div>
           <div className="mt-4 flex gap-2">
-            <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-500 w-full font-bold text-md">
+            <button onClick={()=> handleAddToCart(id)} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-500 w-full font-bold text-md">
               Add To Cart
             </button>
           </div>
