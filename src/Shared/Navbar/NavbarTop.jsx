@@ -61,7 +61,7 @@ const NavbarTop = () => {
   }, [isSmallScreen, setOpen])
 
   const cart = JSON.parse(localStorage.getItem("cart"))
-  console.log(cart[0].quantity)
+  // console.log(cart[0].quantity)
 
 
   return (
