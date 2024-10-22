@@ -10,16 +10,19 @@ const queryClient = new QueryClient();
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import BasicProvider from "./ContextAPIs/BasicProvider.jsx";
 import 'aos/dist/aos.css';
+import { CartProvider } from "./ContextAPIs/CartProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <>
     <ToastContainer />
     <QueryClientProvider client={queryClient}>
+      <CartProvider>
       <OrderProvider>
         <BasicProvider>
           <RouterProvider router={Router} />
         </BasicProvider>
       </OrderProvider>
+      </CartProvider>
     </QueryClientProvider>
   </>
 );
