@@ -3,7 +3,13 @@ import { CartContext } from "../../ContextAPIs/CartProvider";
 import { useContext } from "react";
 
 const CartCount = () => {
-  const { cart, quantity, totalCost, handleIncreaseQuantity, handleDecreaseQuantity } = useContext(CartContext);
+  const {
+    cart,
+    quantity,
+    totalCost,
+    handleIncreaseQuantity,
+    handleDecreaseQuantity,
+  } = useContext(CartContext);
   const { course_name, photo, discount_price } = cart[0].course;
   return (
     <>

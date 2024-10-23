@@ -5,7 +5,7 @@ import CartCount from "./CartCount";
 import { CartContext } from "../../ContextAPIs/CartProvider";
 
 const Cart = () => {
-  const { totalCost } = useContext(CartContext)
+  const { totalCost } = useContext(CartContext);
 
   return (
     <div className="m-mt_16px">
@@ -14,7 +14,7 @@ const Cart = () => {
       </h1>
       <div className="pt-p_16px">
         <div className="lg:flex items-start gap-3">
-          <CartCount/>
+          <CartCount />
 
           <div className="lg:w-[41%] bg-white border-2 ">
             <div className="px-[30px]">

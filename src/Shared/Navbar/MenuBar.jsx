@@ -37,7 +37,7 @@ const MenuBar = () => {
     <div className="shadow-md bg-_white h-screen overflow-y-auto text-black p-pl_16px font_sans ">
       <div className="bg-_white rounded  w-full">
         <img
-          className=" mx-auto  mb-[18px]rounded h-20 object-contain w-full"
+          className=" mx-auto  mb-[18px]rounded h-10 object-contain w-full"
           src={logo}
           alt="dfdf"
         />
