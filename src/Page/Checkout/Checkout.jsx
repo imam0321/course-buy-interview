@@ -40,12 +40,18 @@ const Checkout = () => {
     }));
   }, []);
 
+  const [photoPreview, setPhotoPreview] = useState(null);
+
   const handleInputChange = (e) => {
     const { id, value, files } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [id]: files ? files[0] : value,
     }));
+    if (id === "photo" && files) {
+      const file = files[0];
+      setPhotoPreview(URL.createObjectURL(file)); // Set the preview for the selected image
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -406,7 +412,6 @@ const Checkout = () => {
             </div>
           </div>
           <div className="flex flex-col space-y-2">
-            <div className="flex flex-col space-y-2">
               <label className="font-semibold text-gray-700 text-sm tracking-wide">
                 Upload Student Image:
               </label>
@@ -421,6 +426,9 @@ const Checkout = () => {
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 />
                 <div className="flex items-center justify-center w-24 h-24 bg-gray-100 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200">
+                {photoPreview ? (
+                  <img src={photoPreview} alt="Preview" className="h-full w-full object-cover rounded-lg" />
+                ) : (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-8 w-8 text-gray-500"
@@ -435,10 +443,10 @@ const Checkout = () => {
                       d="M12 4v16m8-8H4"
                     />
                   </svg>
+                )}
                 </div>
               </div>
               </div>
-            </div>
           </div>
         </div>
 
