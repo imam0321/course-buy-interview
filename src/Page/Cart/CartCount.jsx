@@ -4,7 +4,7 @@ import { useContext } from "react";
 
 const CartCount = () => {
   const { cart, quantity, totalCost, handleIncreaseQuantity, handleDecreaseQuantity } = useContext(CartContext);
-  const { course_name, photo, trainer_data, discount_price } = cart[0].course;
+  const { course_name, photo, discount_price } = cart[0].course;
   return (
     <>
       <div className="w-full lg:w-[58%] bg-white border-2">

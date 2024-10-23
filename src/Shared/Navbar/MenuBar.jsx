@@ -29,9 +29,9 @@ const MenuBar = () => {
       setOpen(false);
     }
   };
-  
+
   // cart quantity
-  const {cart} = useContext(CartContext)
+  const { cart } = useContext(CartContext);
 
   return (
     <div className="shadow-md bg-_white h-screen overflow-y-auto text-black p-pl_16px font_sans ">
@@ -77,22 +77,17 @@ const MenuBar = () => {
                 }`}
                 onClick={() => handleClick("/cart")}
               >
-                {
-                  cart.length > 0 ? <Link
-                  to="/cart"
+                <a
+                  href={!cart.length ? "/course" : "/cart"}
                   className="flex items-center gap-gap_6px py-pt_primary"
                 >
                   <span className="bg-bg_selected text-white p-pl_primary rounded-rounded_primary text-text_md">
                     <MdLibraryBooks />
                   </span>
                   <span className="text-text_md font_sans font-medium ">
-                    Cart (
-                    {cart[0].quantity}
-                    )
+                    Cart ({cart[0]?.quantity || 0})
                   </span>
-                </Link> : ''
-                }
-                
+                </a>
               </li>
               {/* <li className={` px-pt_8px my-mt_4px hover:cursor-pointer hover:rounded-rounded_primary hover: duration-200  ${selected === '/checkout' ? 'bg-bg_selected rounded-rounded_primary text-white hover:text-white font-medium hover:bg-bg_selected' : 'text-[#585c66] font-medium hover:text-[#585c66] hover:bg-slate-100 '}`}
                 onClick={() => handleClick('/checkout')}>

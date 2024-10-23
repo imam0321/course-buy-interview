@@ -4,12 +4,16 @@ import { createContext, useState, useEffect } from "react";
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart")) || []);
-  const [quantity, setQuantity] = useState(cart.length > 0 ? cart[0]?.quantity || 0 : 0);
-
+  const [cart, setCart] = useState(
+    JSON.parse(localStorage.getItem("cart")) || []
+  );
+  const [quantity, setQuantity] = useState(
+    cart.length > 0 ? cart[0]?.quantity || 0 : 0
+  );
 
   // Calculate total cost
-  const totalCost = cart.length > 0 ? cart[0].course.discount_price * quantity : 0;
+  const totalCost =
+    cart.length > 0 ? cart[0].course.discount_price * quantity : 0;
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -22,10 +26,14 @@ export const CartProvider = ({ children }) => {
   };
 
   const handleDecreaseQuantity = () => {
-    if (quantity > 0) { 
+    if (quantity > 0) {
       const updatedQuantity = quantity - 1;
       setQuantity(updatedQuantity);
       updateCart(updatedQuantity);
+    }
+    if (quantity === 0) {
+      localStorage.removeItem("cart");
+      setCart([]); // Clear the cart state as well
     }
   };
 
@@ -34,7 +42,6 @@ export const CartProvider = ({ children }) => {
       item.id === cart[0].id ? { ...item, quantity: updatedQuantity } : item
     );
     setCart(updatedCart);
-    // window.location.reload();
   };
 
   return (

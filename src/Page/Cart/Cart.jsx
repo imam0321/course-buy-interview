@@ -5,7 +5,7 @@ import CartCount from "./CartCount";
 import { CartContext } from "../../ContextAPIs/CartProvider";
 
 const Cart = () => {
-    const { quantity, totalCost } = useContext(CartContext)
+  const { totalCost } = useContext(CartContext)
 
   return (
     <div className="m-mt_16px">
@@ -27,7 +27,7 @@ const Cart = () => {
               </div>
 
               <Link
-                to={quantity === 0 ? "/course" : "/checkout"}
+                to="/checkout"
                 state={"bdt"}
                 className="font-medium text-black mb-2 border-2 hover:bg-[#D2C5A2] duration-300 py-2 px-4  block text-center mx-auto w-full"
               >

@@ -2,7 +2,7 @@ import useCourses from "../../Hooks/useCourses";
 import Loader from "../../Utils/Loader/Loader";
 import Course from "./Course";
 import { toast } from "react-toastify";
-import { useContext } from 'react';
+import { useContext } from "react";
 import { CartContext } from "../../ContextAPIs/CartProvider";
 
 const Courses = () => {
@@ -24,18 +24,13 @@ const Courses = () => {
     }
 
     if (!courseInCart) {
-      const updatedCart = [
-        ...cart,
-        { course, id: course.id, quantity: 1 },
-        
-      ];
+      const updatedCart = [...cart, { course, id: course.id, quantity: 1 }];
       setCart(updatedCart);
       toast.success("Course added to cart!");
       // window.location.reload();
-      
+
       localStorage.setItem("cart", JSON.stringify(updatedCart));
       console.log("Course added to cart:", course);
-      
     } else {
       const updatedCart = cart.map((item) => {
         if (item.id === course.id) {

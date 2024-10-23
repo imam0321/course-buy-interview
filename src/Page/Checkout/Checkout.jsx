@@ -27,7 +27,7 @@ const Checkout = () => {
     guardianPhone: "",
     dob: "",
     bloodGroup: "",
-    photo: null, 
+    photo: null,
   });
 
   const { photo, discount_price } = cart[0]?.course || {};
@@ -47,8 +47,6 @@ const Checkout = () => {
       [id]: files ? files[0] : value,
     }));
   };
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -88,21 +86,17 @@ const Checkout = () => {
       id: 48,
     };
     Object.entries(cartInfo).forEach(([key, value]) => {
-        formDataToSubmit.append(key, value);
-      });
-      try {
-        await axiosInstance.post("/api/course-purchase", formDataToSubmit, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        navigate("/order-details", { state: { formData, cartInfo } });
-        localStorage.removeItem("cart");
-        toast.success("Admission added!");
-      } catch (error) {
-        console.error("Error submitting form", error);
-        toast.error("Admission not added! Please try again!");
-      }
+      formDataToSubmit.append(key, value);
+    });
+    try {
+      await axiosInstance.post("/api/course-purchase", formDataToSubmit);
+      navigate("/order-details", { state: { formData, cartInfo } });
+      localStorage.removeItem("cart", JSON.stringify(cart));
+      toast.success("Admission added!");
+    } catch (error) {
+      console.error("Error submitting form", error);
+      toast.error("Admission not added! Please try again!");
+    }
   };
 
   return (
@@ -411,21 +405,41 @@ const Checkout = () => {
               </select>
             </div>
           </div>
-          <div>
-              <label
-                htmlFor="photo"
-                className="block font-semibold text-base mb-2"
-              >
-                Student Photo:
+          <div className="flex flex-col space-y-2">
+            <div className="flex flex-col space-y-2">
+              <label className="font-semibold text-gray-700 text-sm tracking-wide">
+                Upload Student Image:
               </label>
-              <input
-                type="file"
-                id="photo"
-                required
-                onChange={handleInputChange}
-                className="w-full border border-gray-300 rounded-md p-2"
-              />
+              <div className="w-full border border-gray-300 rounded-md p-2">
+              <div className="relative mx-[45%]">
+                <input
+                  type="file"
+                  id="photo"
+                  accept="image/*"
+                  required
+                  onChange={handleInputChange}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+                <div className="flex items-center justify-center w-24 h-24 bg-gray-100 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-gray-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 4v16m8-8H4"
+                    />
+                  </svg>
+                </div>
+              </div>
+              </div>
             </div>
+          </div>
         </div>
 
         <div className="m-mt_16px">

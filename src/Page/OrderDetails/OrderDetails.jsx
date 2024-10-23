@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 const OrderDetails = () => {
   const { state } = useLocation();
   const { formData, cartInfo } = state || {};
-  console.log(cartInfo?.name);
+  // console.log(cartInfo?.name);
 
   return (
     <div className=" m-mt_16px">

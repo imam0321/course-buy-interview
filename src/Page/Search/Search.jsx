@@ -3,8 +3,8 @@ import { IoMdSearch } from "react-icons/io";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const Search = () => {
-  const [formNo, setFormNo] = useState("");
-  const [phoneNo, setPhoneNo] = useState("");
+  const [formNo, setFormNo] = useState();
+  const [phoneNo, setPhoneNo] = useState();
   const [results, setResults] = useState([]);
   const [error, setError] = useState("");
   const axiosInstance = useAxiosSecure();
