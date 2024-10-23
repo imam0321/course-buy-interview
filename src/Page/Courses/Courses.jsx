@@ -2,19 +2,22 @@ import useCourses from "../../Hooks/useCourses";
 import Loader from "../../Utils/Loader/Loader";
 import Course from "./Course";
 import { toast } from "react-toastify";
+import { useContext } from 'react';
+import { CartContext } from "../../ContextAPIs/CartProvider";
 
 const Courses = () => {
   const [courses, loading] = useCourses();
+  const { setCart } = useContext(CartContext);
 
   const handleAddToCart = (id) => {
     const course = courses.find((course) => course.id === id);
 
     if (!course) return;
 
-    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const courseInCart = existingCart.find((item) => item.id === course.id);
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const courseInCart = cart.find((item) => item.id === course.id);
 
-    if (existingCart.length >= 1 && !courseInCart) {
+    if (cart.length >= 1 && !courseInCart) {
       // console.log("Cannot add more than one course to the cart.");
       toast.error("Cannot add more than one course to the cart.");
       return;
@@ -22,18 +25,19 @@ const Courses = () => {
 
     if (!courseInCart) {
       const updatedCart = [
-        ...existingCart,
+        ...cart,
         { course, id: course.id, quantity: 1 },
         
       ];
+      setCart(updatedCart);
       toast.success("Course added to cart!");
-      window.location.reload();
+      // window.location.reload();
       
       localStorage.setItem("cart", JSON.stringify(updatedCart));
       console.log("Course added to cart:", course);
       
     } else {
-      const updatedCart = existingCart.map((item) => {
+      const updatedCart = cart.map((item) => {
         if (item.id === course.id) {
           return { ...item, quantity: item.quantity + 1 };
         }
@@ -41,8 +45,9 @@ const Courses = () => {
       });
 
       localStorage.setItem("cart", JSON.stringify(updatedCart));
+      setCart(updatedCart);
       console.log("Increased quantity for course in cart:", course);
-      window.location.reload();
+      // window.location.reload();
       toast.success("Increased quantity for course in cart!");
     }
   };

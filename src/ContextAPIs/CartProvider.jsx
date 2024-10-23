@@ -15,8 +15,6 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  
-
   const handleIncreaseQuantity = () => {
     const updatedQuantity = quantity + 1;
     setQuantity(updatedQuantity);

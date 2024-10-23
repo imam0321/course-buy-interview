@@ -21,7 +21,7 @@ const Login = () => {
         toast.success(res.data.message);
         localStorage.setItem("token", res.data.access_token);
         refetch();
-        navigate("/");
+        navigate("/course");
       }
     } catch (err) {
       toast.error(err.response.data.message);

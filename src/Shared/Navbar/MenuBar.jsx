@@ -10,6 +10,7 @@ import { IoSettingsSharp } from "react-icons/io5";
 import useHasAccess from "../../Hooks/useHasAccess";
 import { OrderContext } from "../../ContextAPIs/OrderProvider";
 import useSmallScreen from "../../Hooks/useSmallScreen";
+import { CartContext } from "../../ContextAPIs/CartProvider";
 
 const MenuBar = () => {
   const [selected, setSelected] = useState("");
@@ -28,10 +29,9 @@ const MenuBar = () => {
       setOpen(false);
     }
   };
-
-  const cart = JSON.parse(localStorage.getItem("cart")) || {};
-  // console.log(cart[0].quantity)
-  // const totalQuantity = cart.reduce((acc, item) => acc + (item.quantity || 0), 0);
+  
+  // cart quantity
+  const {cart} = useContext(CartContext)
 
   return (
     <div className="shadow-md bg-_white h-screen overflow-y-auto text-black p-pl_16px font_sans ">

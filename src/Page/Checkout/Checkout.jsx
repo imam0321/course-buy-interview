@@ -3,6 +3,7 @@ import CartCount from "../Cart/CartCount";
 import { CartContext } from "../../ContextAPIs/CartProvider";
 import { useContext, useState, useEffect } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
   const { cart, totalCost } = useContext(CartContext);
@@ -97,8 +98,10 @@ const Checkout = () => {
         });
         navigate("/order-details", { state: { formData, cartInfo } });
         localStorage.removeItem("cart");
+        toast.success("Admission added!");
       } catch (error) {
         console.error("Error submitting form", error);
+        toast.error("Admission not added! Please try again!");
       }
   };
 
